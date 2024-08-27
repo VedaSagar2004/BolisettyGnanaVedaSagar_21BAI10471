@@ -1,11 +1,11 @@
 import { useState } from 'react';
-// import { LandingCell } from './LandingCell';
 import { Game } from './Game';
 
 export const Landing = () => {
     const [order, setOrder] = useState([]);
     const [gameStarted, setGameStarted] = useState(false);
 
+    // if cell is clicked it highlights it and updates the state
     const handlePieceClick = (piece) => {
         setOrder(prevOrder => {
             if (prevOrder.includes(piece)) {
@@ -17,6 +17,7 @@ export const Landing = () => {
         });
     };
 
+    // checks if all pieces are selected
     const startGame = () => {
         if (order.length === 5) {
             setGameStarted(true);
@@ -25,10 +26,12 @@ export const Landing = () => {
         }
     };
 
+    // returns the Game component
     if (gameStarted) {
         return <Game order={order} />;
     }
 
+    // return all the landingCell components and also displays the selected order
     return (
         <div className="bg-slate-950 min-h-screen flex items-center justify-center">
             <div className="flex flex-col items-center">
@@ -53,6 +56,7 @@ export const Landing = () => {
     );
 }
 
+// cell component
 export const LandingCell = ({ piece, onClick, isSelected }) => {
     return (
         <div 

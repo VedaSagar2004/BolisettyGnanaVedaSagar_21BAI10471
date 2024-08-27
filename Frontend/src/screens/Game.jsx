@@ -8,6 +8,7 @@ export const Game = ({ order }) => {
     const [selectedPiece, setSelectedPiece] = useState(null);
     const [availableMoves, setAvailableMoves] = useState([]);
 
+    // useEffect to create a webSocket connection and handle incoming messages
     useEffect(() => {
         const ws = new WebSocket('ws://localhost:8080');
         console.log(ws);
@@ -32,7 +33,7 @@ export const Game = ({ order }) => {
             console.log(socket);
             setError('Failed to connect to game server');
         };
-
+        // clean up
         return () => {
             if (ws) {
                 ws.close();
@@ -41,10 +42,12 @@ export const Game = ({ order }) => {
         };
     }, []);
 
+    // if no gameState we render a waiting message
     if (!gameState) {
         return <div className="text-white">Waiting for opponent...</div>;
     }
     
+    // sending the available_moves message to get the available moves for the selected piece
     const handleCellClick = (row, col) => {
         if (socket) {
             socket.send(JSON.stringify({ type: 'available_moves', i: row, j: col }));
@@ -52,10 +55,12 @@ export const Game = ({ order }) => {
         }
     };
 
+    // Check if a move is available for the selected piece
     const isMoveAvailable = (direction) => {
         return availableMoves.includes(direction);
     };
 
+    // returns if selected cell is valid
     const getAvailableCell = (row, col) => {
         if (!selectedPiece) return false;
 
@@ -63,7 +68,7 @@ export const Game = ({ order }) => {
         const rowDiff = row - selectedPiece.row;
         const colDiff = col - selectedPiece.col;
 
-        // Reverse the direction for white player
+        // Reverse the direction
         const multiplier = player === "B" ? 1 : -1;
 
         switch (piece) {
@@ -95,6 +100,7 @@ export const Game = ({ order }) => {
         }
     };
 
+    // renders the board according to the player and flips the board if it is player 2
     const renderBoard = () => {
         let boardToRender = gameState;
 
@@ -121,6 +127,7 @@ export const Game = ({ order }) => {
         );
     };
 
+    // renders the board
     return (
         <div className="bg-slate-950 min-h-screen flex items-center justify-center">
             <div className="text-white">

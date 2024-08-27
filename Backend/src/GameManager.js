@@ -2,6 +2,8 @@ import { Game } from "./Game.js"
 import { AVAILABLE, INIT_GAME, MOVE } from "./Messages.js"
 import { User } from "./User.js"
 
+// we maintain all the games in a array
+// initilize pending user to null
 export class GameManager {
     constructor(){
         this.games = []
@@ -9,19 +11,24 @@ export class GameManager {
         this.pendingUser = null
     }
 
+// push the user to array and handle messages
     addUser(socket,){
         this.users.push(this.player)
         this.messageHandler(socket)
     }
 
+// remove user on disconnect or game completion
     removeUser(socket){
         this.users = this.users.filter(user => user.socket !== socket)
     }
 
+// we have 3 types of messages
     messageHandler(socket){
         socket.on("message", (data) => {
             const message = JSON.parse(data.toString())
 
+            // checks if a pending user is present if not makes the current user a pending user
+            // if pending user is present we create a game between them with their respective orders
             if (message.type === INIT_GAME){
                 if (this.pendingUser){
                     const game = new Game(this.pendingUser.socket, socket, this.pendingUser.order, message.order)
@@ -45,6 +52,9 @@ export class GameManager {
                     }))
                 }
             }
+
+            // moves the piece and kills any character if any and returns the updated board
+            // we also check if the game is completed and declare the winner and close the connection
             if (message.type === MOVE){
                 const game = this.games.find(game => game.player1 === socket || game.player2 === socket)
                 if (game){
@@ -67,6 +77,8 @@ export class GameManager {
                     }))
                 }
             }
+
+            // returns the available moves for the given piece
             if (message.type === AVAILABLE){
                 const game = this.games.find(game => game.player1 === socket || game.player2 === socket)
                 if (game){

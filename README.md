@@ -1,3 +1,7 @@
+<img width="1280" alt="image" src="https://github.com/user-attachments/assets/973fe2ab-9afd-400b-9da2-390773c42f45">
+<img width="1280" alt="image" src="https://github.com/user-attachments/assets/24e72cdb-25f0-489b-b553-c6dbc0ad2b61">
+
+
 ## Tech Stack
 
 ### Backend

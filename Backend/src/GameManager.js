@@ -1,5 +1,5 @@
 import { Game } from "./Game.js"
-import { AVAILABLE, INIT_GAME, MOVE } from "./Messages.js"
+import { AVAILABLE, INIT_GAME, MOVE, RECONNECT } from "./Messages.js"
 import { User } from "./User.js"
 
 // we maintain all the games in a array
@@ -36,12 +36,14 @@ export class GameManager {
                     this.pendingUser.socket.send(JSON.stringify({
                         message: "game_started",
                         board: game.board,
-                        player: "A"
+                        player: "A",
+                        Id: game.player1Id
                     }))
                     socket.send(JSON.stringify({
                         message: "game_started",
                         board: game.board,
-                        player: "B"
+                        player: "B",
+                        Id: game.player2Id
                     }))
                     this.pendingUser = null
                 }
@@ -86,6 +88,27 @@ export class GameManager {
                     socket.send(JSON.stringify({
                         type: "move_list",
                         message: arr
+                    }))
+                }
+            }
+            // we find the game by user id and update the socket in the game class
+            if (message.type === RECONNECT){
+                const game = this.games.find(game => game.player1Id === message.Id || game.player2Id === message.Id)
+                if (game){
+                    if (game.player1Id == message.Id){
+                        if (game.currentTurn == game.player1){
+                            game.currentTurn = socket
+                        }
+                        game.player1 = socket
+                    }
+                    else{
+                        if (game.currentTurn == game.player2){
+                            game.currentTurn = socket
+                        }
+                        game.player2 = socket
+                    }
+                    socket.send(JSON.stringify({
+                        message: "reconnected"
                     }))
                 }
             }

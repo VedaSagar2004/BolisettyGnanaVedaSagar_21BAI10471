@@ -2,7 +2,7 @@ import { AvailableMoves } from "./AvailableMoves.js"
 import { Board } from "./Board.js"
 import { Move } from "./Move.js"
 import { Validation } from "./Validation.js"
-
+import { v4 } from 'uuid'
 
 export class Game {
 
@@ -19,6 +19,8 @@ export class Game {
         this.board = this.state.board()
         this.playermap1 = this.state.position(order1, 1)
         this.playermap2 = this.state.position(order2, 2)
+        this.player1Id = v4()
+        this.player2Id = v4() 
     }
 
     // in this method we make the move and return the updated board
@@ -36,12 +38,22 @@ export class Game {
         }
         // we are assigning the i, j values from thir maps
         if (socket == this.player1){
-            i = Number(this.playermap1.get(piece.concat('b'))[0])
-            j = Number(this.playermap1.get(piece.concat('b'))[1])
+            if (this.playermap1.has(piece.concat('b'))){
+                i = Number(this.playermap1.get(piece.concat('b'))[0])
+                j = Number(this.playermap1.get(piece.concat('b'))[1])
+            }
+            else{
+                return {error: "Invalid character chosen"}
+            }
         }
         else {
-            i = Number(this.playermap2.get(piece.concat('r'))[0])
-            j = Number(this.playermap2.get(piece.concat('r'))[1])
+            if (this.playermap2.has(piece.concat('r'))){
+                i = Number(this.playermap2.get(piece.concat('r'))[0])
+                j = Number(this.playermap2.get(piece.concat('r'))[1])
+            }
+            else{
+                return {error: "Invalid character chosen"}
+            }
         }
 
         // we validate the move and then make the move
@@ -49,11 +61,17 @@ export class Game {
             if (socket == this.player1){
                 if (validation.pawn(move, i, j, 1, this.board)){
                     moveValidation.pawn(this.playermap1, this.playermap2, this.board, i, j, 1, move)
-                } 
+                }
+                else{
+                    return {error: "Invalid move"}
+                }
             }
             else{
                 if (validation.pawn(move, i, j, 2, this.board)){
                     moveValidation.pawn(this.playermap1, this.playermap2, this.board, i, j, 2, move)
+                }
+                else{
+                    return {error: "Invalid move"}
                 }
             }
             
@@ -63,10 +81,16 @@ export class Game {
                 if (validation.hero1(move, i, j, 1, this.board)){
                     moveValidation.hero1(this.playermap1, this.playermap2, this.board, i, j, 1, move)
                 }
+                else{
+                    return {error: "Invalid move"}
+                }
             }
             else{
                 if (validation.hero1(move, i, j, 2, this.board)){
                     moveValidation.hero1(this.playermap1, this.playermap2, this.board, i, j, 2, move)
+                }
+                else{
+                    return {error: "Invalid move"}
                 }
             }
         }
@@ -75,10 +99,16 @@ export class Game {
                 if (validation.hero2(move, i, j, 1, this.board)){
                     moveValidation.hero2(this.playermap1, this.playermap2, this.board, i, j, 1, move)
                 }
+                else{
+                    return {error: "Invalid move"}
+                }
             }
             else{
                 if (validation.hero2(move, i, j, 2, this.board)){
                     moveValidation.hero2(this.playermap1, this.playermap2, this.board, i, j, 2, move)
+                }
+                else{
+                    return {error: "Invalid move"}
                 }
             }
         }

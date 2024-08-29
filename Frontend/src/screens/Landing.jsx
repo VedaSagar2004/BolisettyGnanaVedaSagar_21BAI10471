@@ -4,7 +4,7 @@ import { Heading } from "../components/Heading"
 import { LandingCell } from "../components/LandingCell"
 import { LandingButton } from "../components/LandingButton"
 
-export const TestLanding = () => {
+export const Landing = () => {
     const [socket, setSocket] = useState(null)
     const [order, setOrder] = useState([])
     const navigate = useNavigate()

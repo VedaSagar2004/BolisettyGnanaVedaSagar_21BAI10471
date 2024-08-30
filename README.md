@@ -1,5 +1,6 @@
 <img width="1280" alt="image" src="https://github.com/user-attachments/assets/22518d5b-cf14-4c41-af9f-c6eb99156147">
-<img width="1280" alt="image" src="https://github.com/user-attachments/assets/24e72cdb-25f0-489b-b553-c6dbc0ad2b61">
+<img width="1280" alt="image" src="https://github.com/user-attachments/assets/d1e8d80e-a076-4390-b282-f1c9d729b0f3">
+
 
 
 ## Tech Stack

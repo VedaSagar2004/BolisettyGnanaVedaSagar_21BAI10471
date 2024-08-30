@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom"
 import { Heading } from "../components/Heading"
 import { LandingCell } from "../components/LandingCell"
 import { LandingButton } from "../components/LandingButton"
-import { Game } from "./Game"
 
 export const Landing = () => {
     const [order, setOrder] = useState([])

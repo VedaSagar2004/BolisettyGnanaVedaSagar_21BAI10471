@@ -1,3 +1,5 @@
+
+// game cell component
 export const GameCell = ({ piece, onClick }) => {
     const renderPiece = (piece) => {
         let c = piece

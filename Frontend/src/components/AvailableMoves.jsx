@@ -1,6 +1,6 @@
 import { MovesCell } from "./MovesCell"
 
-
+// return moves component
 export const AvailableMoves = ({movesArr, onCellClick}) => {
     if (typeof movesArr != "object"){
         return alert("Not your turn")

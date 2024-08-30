@@ -3,44 +3,25 @@ import { useNavigate } from "react-router-dom"
 import { Heading } from "../components/Heading"
 import { LandingCell } from "../components/LandingCell"
 import { LandingButton } from "../components/LandingButton"
+import { Game } from "./Game"
 
 export const Landing = () => {
-    const [socket, setSocket] = useState(null)
     const [order, setOrder] = useState([])
     const navigate = useNavigate()
+    const Id = localStorage.getItem("Id")
 
-    // checks if id exists in local storage to reconnect to a game
-    useEffect(() => {
-        const ws = new WebSocket('ws://localhost:8080');
-        console.log(ws);
-        ws.onopen = () => {
-            console.log('WebSocket Connected');
-            setSocket(ws);
-            const Id = localStorage.getItem("Id")
-            if (Id){
-                ws.send(JSON.stringify({ type: 'reconnect', Id}));
-                navigate("/game")
-            }
-        };
-        
-        ws.onerror = (error) => {
-            console.log('WebSocket Error: ', error);
-            console.log(error)
-        };
-        return () => {
-            if (ws) {
-                ws.close();
-                setSocket(null);
-            }
-        };
-    }, []);
+    if (Id){
+        navigate('/game', {state: {Id}})
+    }
+
     
     // button logic to navigate to game page
     const handleButton = () => {
         if (order.length != 5){
             return alert("Please select all Characters")
         } else {
-            navigate("/game")
+            navigate('/game', {state: {order: order}})
+            
         }
     }
 

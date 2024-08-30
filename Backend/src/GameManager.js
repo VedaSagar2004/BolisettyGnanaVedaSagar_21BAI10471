@@ -74,7 +74,12 @@ export class GameManager {
                         game.player1.close()
                         game.player2.close()
                     }
-                    socket.send(JSON.stringify({
+                    game.player1.send(JSON.stringify({
+                        type: "upated_board",
+                        message: board
+                    }))
+                    game.player2.send(JSON.stringify({
+                        type: "updated_board",
                         message: board
                     }))
                 }
@@ -84,10 +89,16 @@ export class GameManager {
             if (message.type === AVAILABLE){
                 const game = this.games.find(game => game.player1 === socket || game.player2 === socket)
                 if (game){
-                    let arr = game.moves(socket, message.i, message.j)
+                    let a = game.moves(socket, message.piece)
+                    if (a.error){
+                        socket.send(JSON.stringify({
+                            message: a.error
+                        }))
+                    }
                     socket.send(JSON.stringify({
                         type: "move_list",
-                        message: arr
+                        message: a.arr,
+                        board: a.b
                     }))
                 }
             }

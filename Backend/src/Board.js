@@ -1,33 +1,35 @@
 export class Board {
 
     // Creates a empty board of 5x5
-    board(){
-        this.state = []
+    newBoard(){
+        let newBoardArr = []
         for (let i=0; i<5;i++){
             let arr = []
             for (let i=0; i<5;i++){
                 arr.push(null)
             }
-            this.state.push(arr)
+            newBoardArr.push(arr)
         }
-        return this.state
+        return newBoardArr
     }
 
 // player 1 --> blue(b)
 // player 2 --> red(r)
 // fills the board with characters recieved from the players and also maintains a map with the position of the characters
-    position(order, player){
+    position(order, player, board){
         let map = new Map()
-        for (let i=0; i<order.length;i++){
-            if (player == 1){
-                this.state[4][i] = order[i].concat('b')
+        if (player == 1){
+            for (let i=0; i<order.length;i++){
+                board[4][i] = order[i].concat('b')
                 let positionString = '4'.concat(i.toString())
-                map.set(this.state[4][i], positionString)
+                map.set(board[4][i], positionString)
             }
-            else{
-                this.state[0][i] = order.reverse()[i].concat('r')
+        } else{
+            order.reverse()
+            for (let i=0; i<order.length;i++){
+                board[0][i] = order[i].concat('r')
                 let positionString = '0'.concat(i.toString())
-                map.set(this.state[0][i], positionString)
+                map.set(board[0][i], positionString)
             }
         }
         return map

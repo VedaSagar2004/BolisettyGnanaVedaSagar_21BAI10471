@@ -15,10 +15,10 @@ export class Game {
         this.player1 = player1
         this.player2 = player2
         this.currentTurn = player1
-        this.state = new Board()
-        this.board = this.state.board()
-        this.playermap1 = this.state.position(order1, 1)
-        this.playermap2 = this.state.position(order2, 2)
+        const boardClass = new Board()
+        this.board = boardClass.newBoard()
+        this.playermap1 = boardClass.position(order1, 1, this.board)
+        this.playermap2 = boardClass.position(order2, 2, this.board)
         this.player1Id = v4()
         this.player2Id = v4() 
     }
@@ -137,12 +137,33 @@ export class Game {
     }
 
     // we are returning the available moves with this method
-    moves(socket, i, j){
+    moves(socket, piece){
         const available = new AvailableMoves()
         let movesArr
         if (socket != this.currentTurn){
             return {error: "this is not your turn"}
         }
+        let i, j
+        // we are assigning the i, j values from thir maps
+        if (socket == this.player1){
+            if (this.playermap1.has(piece.concat('b'))){
+                i = Number(this.playermap1.get(piece.concat('b'))[0])
+                j = Number(this.playermap1.get(piece.concat('b'))[1])
+            }
+            else{
+                return {error: "Invalid character chosen"}
+            }
+        }
+        else {
+            if (this.playermap2.has(piece.concat('r'))){
+                i = Number(this.playermap2.get(piece.concat('r'))[0])
+                j = Number(this.playermap2.get(piece.concat('r'))[1])
+            }
+            else{
+                return {error: "Invalid character chosen"}
+            }
+        }
+
         if (this.board[i][j][0] == 'P'){
             if (socket == this.player1){
                 movesArr = available.pawn(this.board, 1, i, j)
@@ -169,6 +190,6 @@ export class Game {
                 movesArr = available.hero2(this.board, 2, i, j)
             }
         }
-        return movesArr
+        return {arr: movesArr, b: this.board}
     }
 }

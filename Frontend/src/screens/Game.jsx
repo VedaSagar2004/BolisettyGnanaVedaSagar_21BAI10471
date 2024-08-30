@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
-export const Game = ({ order }) => {
-    const [socket, setSocket] = useState(null);
+export const Game = () => {
+    const location = useLocation();
+    const { state } = location;
+    const [socket, setSocket] = useState(null)
     const [gameState, setGameState] = useState(null);
-    const [error, setError] = useState(null);
     const [player, setPlayer] = useState(null);
     const [selectedPiece, setSelectedPiece] = useState(null);
     const [availableMoves, setAvailableMoves] = useState([]);
-
+    
     // useEffect to create a webSocket connection and handle incoming messages
     useEffect(() => {
         const ws = new WebSocket('ws://localhost:8080');
@@ -15,7 +17,7 @@ export const Game = ({ order }) => {
         ws.onopen = () => {
             console.log('WebSocket Connected');
             setSocket(ws);
-            ws.send(JSON.stringify({ type: 'init_game', order }));
+            ws.send(JSON.stringify({ type: 'init_game', order: state.order }));
         };
         
         ws.onmessage = (event) => {
@@ -44,7 +46,9 @@ export const Game = ({ order }) => {
 
     // if no gameState we render a waiting message
     if (!gameState) {
-        return <div className="text-white">Waiting for opponent...</div>;
+        return <div className="bg-slate-950 min-h-screen flex items-center justify-center">
+            <div className='text-white text-5xl'>Waiting for opponent...</div>
+        </div>;
     }
     
     // sending the available_moves message to get the available moves for the selected piece

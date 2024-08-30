@@ -36,13 +36,13 @@ export class GameManager {
                     this.pendingUser.socket.send(JSON.stringify({
                         message: "game_started",
                         board: game.board,
-                        player: "A",
+                        player: "Blue",
                         Id: game.player1Id
                     }))
                     socket.send(JSON.stringify({
                         message: "game_started",
                         board: game.board,
-                        player: "B",
+                        player: "Red",
                         Id: game.player2Id
                     }))
                     this.pendingUser = null
@@ -66,21 +66,36 @@ export class GameManager {
                             message: board.error
                         }))
                     }
-                    let winner = game.gameWinner()
-                    if (winner.completed){
-                        socket.send(JSON.stringify({
-                            message: winner.message
+                    let winnerData = game.gameWinner()
+                    if (winnerData.completed){
+                        game.player1.send(JSON.stringify({
+                            type: "game_completed",
+                            message: winnerData.message,
+                            winner: winnerData.playerWon
+                        }))
+                        game.player2.send(JSON.stringify({
+                            type: "game_completed",
+                            message: winnerData.message,
+                            winner: winnerData.playerWon
                         }))
                         game.player1.close()
                         game.player2.close()
                     }
+                    let currTurn
+                    if (socket == game.player1){
+                        currTurn = "Red"
+                    } else{
+                        currTurn = "Blue"
+                    }
                     game.player1.send(JSON.stringify({
-                        type: "upated_board",
-                        message: board
+                        type: "updated_board",
+                        message: board,
+                        currTurn
                     }))
                     game.player2.send(JSON.stringify({
                         type: "updated_board",
-                        message: board
+                        message: board,
+                        currTurn
                     }))
                 }
             }

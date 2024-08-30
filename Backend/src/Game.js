@@ -126,10 +126,10 @@ export class Game {
     // checks if the any of the maps is empty to declare the winner
     gameWinner(){
         if (this.playermap1.size == 0){
-            return {message: "player 2 won", completed: true}
+            return {message: "player 2 won", completed: true, playerWon: "Red"}
         }
         else if (this.playermap2.size == 0){
-            return {message: "player 1 won", completed: true}
+            return {message: "player 1 won", completed: true, playerWon: "Blue"}
         }
         else{
             return {message: "continue game", completed: false}

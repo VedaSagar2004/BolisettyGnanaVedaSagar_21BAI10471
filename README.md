@@ -14,6 +14,11 @@
 
 ## How to Run
 
+1. clone the repository
+    ```bash
+    git clone https://github.com/VedaSagar2004/BolisettyGnanaVedaSagar_21BAI10471
+    ```
+    
 1. Navigate to the backend directory:
     ```bash
     cd Backend/src
@@ -38,46 +43,20 @@
     ```bash
     npm install
     ```
+## Running the Game
 
-6. Start the frontend development server:
+1. Start the backend server
+   ```bash
+    node index.js
+    ```
+2. Start the frontend
     ```bash
     npm run dev
     ```
-## How to Test the WebSocket Server
+2. Open two new tabs
+   
+3. Go to http://localhost:5173/ in both tabs.
 
-1. Open two tabs in your web browser.
+4. In each tab select your character order and click on play game.
 
-2. Go to [Hoppscotch WebSocket Testing Tool](https://hoppscotch.io/realtime/websocket) in both tabs.
-
-3. In each tab, enter the WebSocket URL: `ws://localhost:8080` and click on **Connect** to establish a WebSocket connection.
-
-4. Send the following message in both tabs:
-
-    ```json
-    {
-      "type": "init_game",
-      "order": "your_order_array"   // Example: ["P1", "P2", "P3", "H1", "H2"]
-    }
-    ```
-## Actions and Their Respective Messages
-
-### 1. Get Available Moves
-
-To request available moves for a piece, send the following message:
-
-```json
-{
-    "type": "available_moves",
-    "piece": "your_piece"  // Example: "P1"
-}
-```
-### 2. Move a Piece
-
-To move a piece, send the following message:
-
-```json
-{
-    "type": "move",
-    "piece": "your_piece",   // Example: "P1"
-    "move": "your_move"      // Example: "F"
-}
+5. Play the game until winner is displayed

@@ -132,7 +132,7 @@ export class Validation {
         if (player == 1){
             if (move == "F"){
                 if (i-2 >= 0){
-                    if (board[i-2][j] && board[i-2][j][2] == 'b'){
+                    if ((board[i-2][j] && board[i-2][j][2] == 'b')||(board[i-1][j] && board[i-1][j][2] == 'b')){
                         return false
                     }
                     else {
@@ -145,7 +145,7 @@ export class Validation {
             }
             if (move == "L"){
                 if (j-2 >= 0){
-                    if (board[i][j-2] && board[i][j-2][2] == 'b'){
+                    if ((board[i][j-2] && board[i][j-2][2] == 'b')||(board[i][j-1] && board[i][j-1][2] == 'b')){
                         return false
                     }
                     else {
@@ -158,7 +158,7 @@ export class Validation {
             }
             if (move == "R"){
                 if (j+2 <= 4){
-                    if (board[i][j+2] && board[i][j+2][2] == 'b'){
+                    if ((board[i][j+2] && board[i][j+2][2] == 'b')||(board[i][j+1] && board[i][j+1][2] == 'b')){
                         return false
                     }
                     else{
@@ -171,7 +171,7 @@ export class Validation {
             }
             if (move == "B"){
                 if (i+2 <= 4){
-                    if (board[i+2][j] && board[i+2][j][2] == 'b'){
+                    if ((board[i+2][j] && board[i+2][j][2] == 'b')||(board[i+1][j] && board[i+1][j][2] == 'b')){
                         return false
                     }
                     else{
@@ -186,7 +186,7 @@ export class Validation {
         else {
             if (move == "F"){
                 if (i+2 <= 4){
-                    if (board[i+2][j] && board[i+2][j][2] == 'r'){
+                    if ((board[i+2][j] && board[i+2][j][2] == 'r')||(board[i+1][j] && board[i+1][j][2] == 'r')){
                         return false
                     }
                     else{
@@ -199,7 +199,7 @@ export class Validation {
             }
             if (move == "R"){
                 if (j-2 >= 0){
-                    if (board[i][j-2] && board[i][j-2][2] == 'r'){
+                    if ((board[i][j-2] && board[i][j-2][2] == 'r')||(board[i][j-1] && board[i][j-1][2] == 'r')){
                         return false
                     }
                     else{
@@ -212,7 +212,7 @@ export class Validation {
             }
             if (move == "L"){
                 if (j+2 <= 4){
-                    if (board[i][j+2] && board[i][j+2][2] == 'r'){
+                    if ((board[i][j+2] && board[i][j+2][2] == 'r')||(board[i][j+1] && board[i][j+1][2] == 'r')){
                         return false
                     }
                     else{
@@ -225,7 +225,7 @@ export class Validation {
             }
             if (move == "B"){
                 if (i-2 >= 0){
-                    if (board[i-2][j] && board[i-2][j][2] == 'r'){
+                    if ((board[i-2][j] && board[i-2][j][2] == 'r')||(board[i-1][j] && board[i-1][j][2] == 'r')){
                         return false
                     }
                     else{
@@ -245,7 +245,7 @@ export class Validation {
         if (player == 1){
             if (move == "FR"){
                 if (i-2 >= 0 && j+2 <= 4){
-                    if (board[i-2][j+2] && board[i-2][j+2][2] == 'b'){
+                    if ((board[i-2][j+2] && board[i-2][j+2][2] == 'b')||(board[i-1][j+1] && board[i-1][j+1][2] == 'b')){
                         return false
                     }
                     else{
@@ -258,7 +258,7 @@ export class Validation {
             }
             if (move == "FL"){
                 if (i-2 >= 0 && j-2 >= 0){
-                    if (board[i-2][j-2] && board[i-2][j-2][2] == 'b'){
+                    if ((board[i-2][j-2] && board[i-2][j-2][2] == 'b')||(board[i-1][j-1] && board[i-1][j-1][2] == 'b')){
                         return false
                     }
                     else{
@@ -271,7 +271,7 @@ export class Validation {
             }
             if (move == "BR"){
                 if (i+2 <= 4 && j+2 <= 4){
-                    if (board[i+2][j+2] && board[i+2][j+2][2] == 'b'){
+                    if ((board[i+2][j+2] && board[i+2][j+2][2] == 'b')||(board[i+1][j+1] && board[i+1][j+1][2] == 'b')){
                         return false
                     }
                     else{
@@ -284,7 +284,7 @@ export class Validation {
             }
             if (move == "BL"){
                 if (i+2 <= 4 && j-2 >= 0){
-                    if (board[i+2][j-2] && board[i+2][j-2][2] == 'b'){
+                    if ((board[i+2][j-2] && board[i+2][j-2][2] == 'b')||(board[i+1][j-1] && board[i+1][j-1][2] == 'b')){
                         return false
                     }
                     else{
@@ -299,7 +299,7 @@ export class Validation {
         else{
             if (move == "FR"){
                 if (i+2 <= 4 && j-2 >= 0){
-                    if (board[i+2][j-2] && board[i+2][j-2][2] == 'r'){
+                    if ((board[i+2][j-2] && board[i+2][j-2][2] == 'r')||(board[i+1][j-1] && board[i+1][j-1][2] == 'r')){
                         return false
                     }
                     else{
@@ -312,7 +312,7 @@ export class Validation {
             }
             if (move == "FL"){
                 if (i+2 <= 4 && j+2 <= 4){
-                    if (board[i+2][j+2] && board[i+2][j+2][2] == 'r'){
+                    if ((board[i+2][j+2] && board[i+2][j+2][2] == 'r')||(board[i+1][j+1] && board[i+1][j+1][2] == 'r')){
                         return false
                     }
                     else{
@@ -325,7 +325,7 @@ export class Validation {
             }
             if (move == "BR"){
                 if (i-2 >= 0 && j-2 >= 0){
-                    if (board[i-2][j-2] && board[i-2][j-2][2] == 'r'){
+                    if ((board[i-2][j-2] && board[i-2][j-2][2] == 'r')||(board[i-1][j-1] && board[i-1][j-1][2] == 'r')){
                         return false
                     }
                     else{
@@ -338,7 +338,7 @@ export class Validation {
             }
             if (move == "BL"){
                 if (i-2 >= 0 && j+2 <= 4){
-                    if (board[i-2][j+2] && board[i-2][j+2][2] == 'r'){
+                    if ((board[i-2][j+2] && board[i-2][j+2][2] == 'r')||(board[i-1][j+1] && board[i-1][j+1][2] == 'r')){
                         return false
                     }
                     else{

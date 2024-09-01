@@ -6,6 +6,9 @@ export const AvailableMoves = ({movesArr, onCellClick}) => {
         return alert("Not your turn")
     }
     let arr = movesArr
+    if (arr.length == 0){
+        return alert("No valid moves")
+    }
     return arr.map((cell, cellIndex) => (
         <MovesCell onClick={() => {
             onCellClick(cell)

@@ -120,21 +120,30 @@ export class GameManager {
             // we find the game by user id and update the socket in the game class
             if (message.type === RECONNECT){
                 const game = this.games.find(game => game.player1Id === message.Id || game.player2Id === message.Id)
+                let currTurn, player
                 if (game){
                     if (game.player1Id == message.Id){
                         if (game.currentTurn == game.player1){
                             game.currentTurn = socket
+                            currTurn = "Blue"
                         }
                         game.player1 = socket
+                        player = "Blue"
                     }
                     else{
                         if (game.currentTurn == game.player2){
                             game.currentTurn = socket
+                            currTurn = "Red"
                         }
                         game.player2 = socket
+                        player = "Red"
                     }
                     socket.send(JSON.stringify({
-                        message: "reconnected"
+                        type: "reconnected",
+                        message: "reconnected",
+                        board: game.board,
+                        currTurn,
+                        player
                     }))
                 }
             }

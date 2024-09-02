@@ -17,6 +17,7 @@ export const Game = () => {
     const [winner, setWinner] = useState(null)
     const navigate = useNavigate()
 
+
     useEffect(() => {
         if (winner) {
           const timer = setTimeout(() => {
@@ -34,24 +35,42 @@ export const Game = () => {
         ws.onopen = () => {
             console.log('WebSocket Connected');
             setSocket(ws);
-            ws.send(JSON.stringify({ type: 'init_game', order: state.order }));
+            if (localStorage.getItem("Id")){
+                ws.send(JSON.stringify({ type: 'reconnect', Id: localStorage.getItem("Id")}));
+            } else{
+                ws.send(JSON.stringify({ type: 'init_game', order: state.order }));
+            }
         };
         
         ws.onmessage = (event) => {
             const data = JSON.parse(event.data);
             if (data.message === 'game_started') {
+                localStorage.setItem("Id", data.Id)
                 setGameState(data.board);
                 setPlayer(data.player);
                 setCurrentPlayer("Blue")
             } else if (data.type === 'move_list') {
                 setAvailableMoves(data.message);
+                if (typeof data.message != "object"){
+                    return alert("Not your turn")
+                }
+                if ((typeof data.message == "object") && (data.message.length == 0)){
+                    return alert("No valid moves")
+                }
             } else if (data.type == "updated_board"){
                 setGameState(data.message)
                 setPieceSeleted(false)
                 setCurrentPlayer(data.currTurn)
             } else if (data.type == "game_completed"){
                 setWinner(data.winner)
+                localStorage.removeItem("Id")
+            } else if (data.type == "reconnected"){
+                console.log(player)
+                setGameState(data.board)
+                setCurrentPlayer(data.currTurn)
+                setPlayer(data.player)
             }
+
         };
         
         ws.onerror = (error) => {

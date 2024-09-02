@@ -3,15 +3,19 @@ import { useNavigate } from "react-router-dom"
 import { Heading } from "../components/Heading"
 import { LandingCell } from "../components/LandingCell"
 import { LandingButton } from "../components/LandingButton"
+import { Instructions } from "../components/Instructions"
 
 export const Landing = () => {
     const [order, setOrder] = useState([])
     const navigate = useNavigate()
     const Id = localStorage.getItem("Id")
 
-    if (Id){
-        navigate('/game', {state: {Id}})
-    }
+    
+    useEffect(() => {
+        if (Id){
+            navigate('/game', {state: {Id}})
+        } 
+    }, [])
 
     
     // button logic to navigate to game page
@@ -36,6 +40,7 @@ export const Landing = () => {
     }
 
     return <div className="bg-slate-950 min-h-screen">
+        <div className="cursor-pointer text-white pt-4 pl-4 text-lg hover:text-slate-400"><a href="#instructions" className="scroll-smooth">How to play?</a></div>
         <div><Heading></Heading></div>
         <div className="text-2xl text-white flex items-center justify-center pt-7">Please select your character order</div>
         <div className="min-h-96 min-w-screen flex items-center justify-center">
@@ -51,6 +56,7 @@ export const Landing = () => {
             Selected Order: {order.join(" ")}
         </div>
         <div className="flex items-center justify-center mt-6"><LandingButton onClick = {() => handleButton()}></LandingButton></div>
+        <div id="instructions"><Instructions></Instructions></div>
     </div>
 
 }

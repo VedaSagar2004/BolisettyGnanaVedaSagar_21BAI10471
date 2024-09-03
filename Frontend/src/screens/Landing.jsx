@@ -40,7 +40,7 @@ export const Landing = () => {
     }
 
     return <div className="bg-slate-950 min-h-screen">
-        <div className="cursor-pointer text-white pt-4 pl-4 text-lg hover:text-slate-400"><a href="#instructions" className="scroll-smooth">How to play?</a></div>
+        <div className="cursor-pointer text-white pt-4 pl-4 text-lg hover:text-slate-400"><a href="#instructions">How to play?</a></div>
         <div><Heading></Heading></div>
         <div className="text-2xl text-white flex items-center justify-center pt-7">Please select your character order</div>
         <div className="min-h-96 min-w-screen flex items-center justify-center">

@@ -27,7 +27,7 @@ export class Board {
         } else{
             order.reverse()
             for (let i=0; i<order.length;i++){
-                board[0][i] = order[i].concat('r')
+                board[0][i] = order[i].concat('a')
                 let positionString = '0'.concat(i.toString())
                 map.set(board[0][i], positionString)
             }

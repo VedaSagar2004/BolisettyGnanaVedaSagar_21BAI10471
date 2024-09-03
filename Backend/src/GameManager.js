@@ -36,13 +36,13 @@ export class GameManager {
                     this.pendingUser.socket.send(JSON.stringify({
                         message: "game_started",
                         board: game.board,
-                        player: "Blue",
+                        player: "B",
                         Id: game.player1Id
                     }))
                     socket.send(JSON.stringify({
                         message: "game_started",
                         board: game.board,
-                        player: "Red",
+                        player: "A",
                         Id: game.player2Id
                     }))
                     this.pendingUser = null
@@ -83,18 +83,20 @@ export class GameManager {
                     }
                     let currTurn
                     if (socket == game.player1){
-                        currTurn = "Red"
+                        currTurn = "A"
                     } else{
-                        currTurn = "Blue"
+                        currTurn = "B"
                     }
                     game.player1.send(JSON.stringify({
                         type: "updated_board",
-                        message: board,
+                        message: board.updatedBoard,
+                        history: board.history,
                         currTurn
                     }))
                     game.player2.send(JSON.stringify({
                         type: "updated_board",
-                        message: board,
+                        message: board.updatedBoard,
+                        history: board.history,
                         currTurn
                     }))
                 }
@@ -125,18 +127,18 @@ export class GameManager {
                     if (game.player1Id == message.Id){
                         if (game.currentTurn == game.player1){
                             game.currentTurn = socket
-                            currTurn = "Blue"
+                            currTurn = "B"
                         }
                         game.player1 = socket
-                        player = "Blue"
+                        player = "B"
                     }
                     else{
                         if (game.currentTurn == game.player2){
                             game.currentTurn = socket
-                            currTurn = "Red"
+                            currTurn = "A"
                         }
                         game.player2 = socket
-                        player = "Red"
+                        player = "A"
                     }
                     socket.send(JSON.stringify({
                         type: "reconnected",

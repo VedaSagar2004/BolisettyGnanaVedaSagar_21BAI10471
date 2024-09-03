@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { GameCell } from '../components/GameCell';
 import { AvailableMoves } from '../components/AvailableMoves';
+import { MoveList } from '../components/MoveList';
 
 export const Game = () => {
     const location = useLocation();
@@ -14,6 +15,7 @@ export const Game = () => {
     const [selectedMove, setSelectedMove] = useState(null)
     const [availableMoves, setAvailableMoves] = useState([]);
     const [currentPlayer, setCurrentPlayer] = useState(null)
+    const [moveHistory, setMoveHistory] = useState([])
     const [winner, setWinner] = useState(null)
     const navigate = useNavigate()
 
@@ -48,7 +50,7 @@ export const Game = () => {
                 localStorage.setItem("Id", data.Id)
                 setGameState(data.board);
                 setPlayer(data.player);
-                setCurrentPlayer("Blue")
+                setCurrentPlayer("B")
             } else if (data.type === 'move_list') {
                 setAvailableMoves(data.message);
                 if (typeof data.message != "object"){
@@ -61,6 +63,7 @@ export const Game = () => {
                 setGameState(data.message)
                 setPieceSeleted(false)
                 setCurrentPlayer(data.currTurn)
+                setMoveHistory(data.history)
             } else if (data.type == "game_completed"){
                 setWinner(data.winner)
                 localStorage.removeItem("Id")
@@ -101,10 +104,10 @@ export const Game = () => {
     
     // handles character click logic
     const HandleClick = (cell) => {
-        if (player == "Blue" && cell[2] == "r"){
+        if (player == "B" && cell[2] == "a"){
             return alert("Not your Character")
         }
-        if (player == "Red" && cell[2] == "b"){
+        if (player == "A" && cell[2] == "b"){
             return alert("Not your Character")
         }
         if (cell == null){
@@ -123,7 +126,7 @@ export const Game = () => {
     // renders board and reverses according to player
     const RenderBoard = () => {
         let testBoard = gameState
-        if (player !== "Blue") {
+        if (player != "B") {
             testBoard = gameState.slice().reverse().map(row => row.slice().reverse());
         }
         return testBoard.map((row, rowIndex) => (
@@ -142,14 +145,21 @@ export const Game = () => {
 
     // renders the board
     return (
-        <div className="bg-slate-950 min-h-screen flex flex-col items-center justify-center">
-            <div className="text-white">
-                <h2 className="text-2xl mb-4">Current Turn: {currentPlayer}</h2>
-                <div className="grid grid-cols-5 grid-rows-5 gap-1">
-                    {RenderBoard()}
+        <div>
+            <div className="static bg-slate-950 min-h-screen flex flex-col items-center justify-center">
+                <div className="text-white">
+                    <h2 className="text-2xl mb-4">Current Turn: {currentPlayer}</h2>
+                    <div className="grid grid-cols-5 grid-rows-5 gap-1">
+                        {RenderBoard()}
+                    </div>
                 </div>
+                {pieceSelected && <div className='text-lg text-white mt-5'>Selected piece: {selectedPiece[2].toUpperCase()}-{selectedPiece.slice(0,2)}</div>}
+                {pieceSelected && <div className='flex gap-3 mt-8 '><AvailableMoves onCellClick={handleMovesClick} moveState= {setSelectedMove} movesArr={availableMoves}></AvailableMoves></div>}
+            
+            <div className='absolute right-24 flex items-center justify-end'><MoveList moveHistory={moveHistory}></MoveList></div>
             </div>
-            {pieceSelected && <div className='flex gap-3 mt-8 '><AvailableMoves onCellClick={handleMovesClick} moveState= {setSelectedMove} movesArr={availableMoves}></AvailableMoves></div>}
         </div>
     );
 };
+
+// className='bg-slate-950 min-h-screen flex items-center justify-evenly'

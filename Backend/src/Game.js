@@ -14,6 +14,7 @@ export class Game {
     constructor(player1, player2, order1, order2){
         this.player1 = player1
         this.player2 = player2
+        this.moveHistory = []
         this.currentTurn = player1
         const boardClass = new Board()
         this.board = boardClass.newBoard()
@@ -47,9 +48,9 @@ export class Game {
             }
         }
         else {
-            if (this.playermap2.has(piece.concat('r'))){
-                i = Number(this.playermap2.get(piece.concat('r'))[0])
-                j = Number(this.playermap2.get(piece.concat('r'))[1])
+            if (this.playermap2.has(piece.concat('a'))){
+                i = Number(this.playermap2.get(piece.concat('a'))[0])
+                j = Number(this.playermap2.get(piece.concat('a'))[1])
             }
             else{
                 return {error: "Invalid character chosen"}
@@ -60,7 +61,8 @@ export class Game {
         if (piece == 'P1' || piece == 'P2' || piece == 'P3'){
             if (socket == this.player1){
                 if (validation.pawn(move, i, j, 1, this.board)){
-                    moveValidation.pawn(this.playermap1, this.playermap2, this.board, i, j, 1, move)
+                    let moveMade = moveValidation.pawn(this.playermap1, this.playermap2, this.board, i, j, 1, move)
+                    this.moveHistory.push(moveMade)
                 }
                 else{
                     return {error: "Invalid move"}
@@ -68,7 +70,8 @@ export class Game {
             }
             else{
                 if (validation.pawn(move, i, j, 2, this.board)){
-                    moveValidation.pawn(this.playermap1, this.playermap2, this.board, i, j, 2, move)
+                    let moveMade = moveValidation.pawn(this.playermap1, this.playermap2, this.board, i, j, 2, move)
+                    this.moveHistory.push(moveMade)
                 }
                 else{
                     return {error: "Invalid move"}
@@ -79,7 +82,8 @@ export class Game {
         if (piece == 'H1'){
             if (socket == this.player1){
                 if (validation.hero1(move, i, j, 1, this.board)){
-                    moveValidation.hero1(this.playermap1, this.playermap2, this.board, i, j, 1, move)
+                    let moveMade = moveValidation.hero1(this.playermap1, this.playermap2, this.board, i, j, 1, move)
+                    this.moveHistory.push(moveMade)
                 }
                 else{
                     return {error: "Invalid move"}
@@ -87,7 +91,8 @@ export class Game {
             }
             else{
                 if (validation.hero1(move, i, j, 2, this.board)){
-                    moveValidation.hero1(this.playermap1, this.playermap2, this.board, i, j, 2, move)
+                    let moveMade = moveValidation.hero1(this.playermap1, this.playermap2, this.board, i, j, 2, move)
+                    this.moveHistory.push(moveMade)
                 }
                 else{
                     return {error: "Invalid move"}
@@ -97,7 +102,8 @@ export class Game {
         if (piece == 'H2'){
             if (socket == this.player1){
                 if (validation.hero2(move, i, j, 1, this.board)){
-                    moveValidation.hero2(this.playermap1, this.playermap2, this.board, i, j, 1, move)
+                    let moveMade = moveValidation.hero2(this.playermap1, this.playermap2, this.board, i, j, 1, move)
+                    this.moveHistory.push(moveMade)
                 }
                 else{
                     return {error: "Invalid move"}
@@ -105,7 +111,8 @@ export class Game {
             }
             else{
                 if (validation.hero2(move, i, j, 2, this.board)){
-                    moveValidation.hero2(this.playermap1, this.playermap2, this.board, i, j, 2, move)
+                    let moveMade = moveValidation.hero2(this.playermap1, this.playermap2, this.board, i, j, 2, move)
+                    this.moveHistory.push(moveMade)
                 }
                 else{
                     return {error: "Invalid move"}
@@ -120,7 +127,7 @@ export class Game {
         else{
             this.currentTurn = this.player1
         }
-        return this.board
+        return {updatedBoard: this.board, history: this.moveHistory}
     }
 
     // checks if the any of the maps is empty to declare the winner
@@ -155,9 +162,9 @@ export class Game {
             }
         }
         else {
-            if (this.playermap2.has(piece.concat('r'))){
-                i = Number(this.playermap2.get(piece.concat('r'))[0])
-                j = Number(this.playermap2.get(piece.concat('r'))[1])
+            if (this.playermap2.has(piece.concat('a'))){
+                i = Number(this.playermap2.get(piece.concat('a'))[0])
+                j = Number(this.playermap2.get(piece.concat('a'))[1])
             }
             else{
                 return {error: "Invalid character chosen"}
